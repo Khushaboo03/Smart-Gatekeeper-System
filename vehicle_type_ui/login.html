@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Vehicle Type Classification</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="gradient-bg">
+        <div class="card-wrapper card slide-up">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 48px; margin-bottom: 12px;">🔐</div>
+                <h1>Login</h1>
+                <p>Enter your credentials to continue</p>
+            </div>
+
+            <form onsubmit="handleLogin(event)">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1F2937;">
+                        Username
+                    </label>
+                    <input 
+                        type="text" 
+                        id="username"
+                        placeholder="Enter your username"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1F2937;">
+                        Password
+                    </label>
+                    <input 
+                        type="password" 
+                        id="password"
+                        placeholder="Enter your password"
+                        required
+                    >
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input
+                            type="checkbox"
+                            id="rememberMe"
+                            style="width: auto; margin-right: 8px; margin-bottom: 0; cursor: pointer;"
+                        >
+                        <span style="color: #6B7280;">Remember me</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="primary" style="width: 100%; padding: 14px;">
+                    Login
+                </button>
+            </form>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+                <button class="tertiary" style="width: 100%" onclick="navigate('signup.html')">
+                    Don't have an account? Sign Up
+                </button>
+            </div>
+
+            <p style="text-align: center; margin-top: 20px; color: #6B7280; font-size: 14px;">
+                Demo credentials: Any username/password works for demo
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check for remembered username on page load
+        window.addEventListener('load', function() {
+            const rememberedUsername = localStorage.getItem('rememberedUsername');
+            if (rememberedUsername) {
+                document.getElementById('username').value = rememberedUsername;
+                document.getElementById('rememberMe').checked = true;
+            }
+        });
+
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            const rememberMe = document.getElementById('rememberMe').checked;
+
+            // Get stored users
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+            // Find user
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                // Login successful
+                localStorage.setItem('username', username);
+
+                // Handle remember me
+                if (rememberMe) {
+                    localStorage.setItem('rememberedUsername', username);
+                } else {
+                    localStorage.removeItem('rememberedUsername');
+                }
+
+                navigate('dashboard.html');
+            } else {
+                // Login failed
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Invalid username or password. Please try again.',
+                    confirmButtonColor: '#3B82F6'
+                });
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+✔ Data collection (camera / images)
+
+✔ Data labeling (Roboflow)
+
+✔ Dataset export (YOLO format)
+
+✔ Data preprocessing
+
+Label fixing
+
+Corruption checking
+
+✔ Train / Validation / Test split
+
+✔ Dataset validation (code runs correctly)
+
+my project name is vehicle type classification using deep learning in my project data collection and data labeling data preprocessing ,spliting data into test,train,val these all steps are done above is the folder structure of my project is this correct  way of doing my project what is the next step of my project or waht i need tochange my project 
+
+Data Collection
+↓
+Annotation
+↓
+Preprocessing
+↓
+Train
+↓
+Validation
+↓
+Test Evaluation (THIS STEP)
+↓
+Real-world usage

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detection Results - Vehicle Type Classification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">🚗 Vehicle Classification</a>
+            <nav class="nav-buttons">
+                <a href="dashboard.html" class="nav-link">← Dashboard</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card slide-up">
+            <div class="icon-heading">
+                <div class="icon-heading-icon">✅</div>
+                <div class="icon-heading-text">
+                    <h1>Detection Results</h1>
+                    <p style="margin: 0;">Analysis complete - vehicles detected</p>
+                </div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <!-- Image Preview with Bounding Boxes (Mock) -->
+            <div style="background: #F3F4F6; padding: 20px; border-radius: 12px; margin: 24px 0;">
+                <div style="background: white; padding: 16px; border-radius: 8px; position: relative; overflow: hidden;">
+                    <div style="width: 100%; aspect-ratio: 16/9; background: linear-gradient(135deg, #EFF6FF, #DBEAFE); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6B7280; font-size: 14px;">
+                        📸 Uploaded Image with Detection Boxes
+                    </div>
+                    <p style="margin: 12px 0 0 0; font-size: 12px; color: #9CA3AF;">
+                        Mock display - in production, this would show your actual image with bounding boxes
+                    </p>
+                </div>
+            </div>
+
+            <!-- Detection Summary -->
+            <div style="background: #DCFCE7; padding: 20px; border-radius: 12px; border-left: 4px solid #22C55E; margin-bottom: 24px;">
+                <h3 style="margin-top: 0; color: #166534;">🎯 Detection Summary</h3>
+                <p style="margin-bottom: 12px; color: #166534; font-size: 14px;">
+                    <strong>Total Vehicles Detected:</strong> 3
+                </p>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px;">
+                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 3px solid #22C55E; text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 4px;">🚗</div>
+                        <p style="margin: 0; font-weight: 600; color: #166534;">Cars</p>
+                        <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #166534;">2</p>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 3px solid #3B82F6; text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 4px;">🚌</div>
+                        <p style="margin: 0; font-weight: 600; color: #1E40AF;">Buses</p>
+                        <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #1E40AF;">0</p>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 3px solid #F59E0B; text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 4px;">🚚</div>
+                        <p style="margin: 0; font-weight: 600; color: #92400E;">Trucks</p>
+                        <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #92400E;">1</p>
+                    </div>
+                    <div style="background: white; padding: 12px; border-radius: 8px; border-left: 3px solid #EC4899; text-align: center;">
+                        <div style="font-size: 24px; margin-bottom: 4px;">🏍️</div>
+                        <p style="margin: 0; font-weight: 600; color: #831843;">Motorcycles</p>
+                        <p style="margin: 4px 0 0 0; font-size: 20px; font-weight: 700; color: #831843;">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Detection Results -->
+            <div style="background: #F9FAFB; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                <h3 style="margin-top: 0;">📋 Detailed Results</h3>
+                <table class="confidence-table">
+                    <thead>
+                        <tr>
+                            <th>Vehicle Type</th>
+                            <th>Confidence Score</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span style="font-weight: 600;">🚗 Car #1</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 600;">96.8%</span>
+                                </div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: 96.8%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">Confirmed</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span style="font-weight: 600;">🚗 Car #2</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 600;">94.2%</span>
+                                </div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: 94.2%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-success">Confirmed</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span style="font-weight: 600;">🚚 Truck #1</span>
+                            </td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 600;">89.5%</span>
+                                </div>
+                                <div class="confidence-bar">
+                                    <div class="confidence-fill" style="width: 89.5%;"></div>
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge badge-primary">High Confidence</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Overall Statistics -->
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <div class="stat-item-label">Average Confidence</div>
+                    <div class="stat-item-value">93.5%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item-label">Processing Time</div>
+                    <div class="stat-item-value">1.23s</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-item-label">Model Used</div>
+                    <div class="stat-item-value">YOLOv8</div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group" style="margin-top: 32px;">
+                <button class="secondary" style="flex: 1;" onclick="navigate('upload.html')">
+                    ⬆️ Upload New
+                </button>
+                <button class="primary" style="flex: 1;" onclick="navigate('analysis.html')">
+                    📊 View Analysis →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        window.addEventListener('load', function() {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                navigate('login.html');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('username');
+            navigate('index.html');
+        }
+    </script>
+</body>
+</html>

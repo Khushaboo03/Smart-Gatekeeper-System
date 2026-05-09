@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - Vehicle Type Classification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">🚗 Vehicle Classification</a>
+            <nav class="nav-buttons">
+                <a href="dashboard.html" class="nav-link">← Dashboard</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card slide-up">
+            <div class="icon-heading">
+                <div class="icon-heading-icon">⬆️</div>
+                <div class="icon-heading-text">
+                    <h1>Upload File</h1>
+                    <p style="margin: 0;">Drag and drop or browse to upload</p>
+                </div>
+            </div>
+
+            <!-- Upload Box -->
+            <div class="upload-box" id="uploadBox" ondrop="handleDrop(event)" ondragover="handleDragOver(event)" ondragleave="handleDragLeave(event)">
+                <div style="font-size: 48px; margin-bottom: 12px;">☁️</div>
+                <p class="upload-box-text">Drag your image or video here</p>
+                <p style="color: #9CA3AF; font-size: 14px; margin-bottom: 16px;">
+                    or
+                </p>
+                <label style="cursor: pointer;">
+                    <input type="file" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="handleFileSelect(event)">
+                    <button type="button" class="primary" style="cursor: pointer;">
+                        📁 Browse Files
+                    </button>
+                </label>
+            </div>
+
+            <!-- File Preview -->
+            <div id="filePreview" style="display: none; margin-top: 24px;">
+                <h3>Selected File</h3>
+                <div style="background: #F9FAFB; padding: 16px; border-radius: 12px; margin-top: 12px;">
+                    <p style="margin: 0; margin-bottom: 8px;">
+                        <span style="font-weight: 600;" id="fileName"></span>
+                    </p>
+                    <p style="margin: 0; font-size: 14px; color: #6B7280;" id="fileSize"></p>
+                </div>
+                <div id="imagePreviewContainer" style="margin-top: 16px; display: none;">
+                    <img id="imagePreview" alt="Preview" style="max-width: 100%; max-height: 300px; border-radius: 12px; object-fit: contain;">
+                </div>
+            </div>
+
+            <!-- Processing Info -->
+            <div style="background: #EFF6FF; padding: 16px; border-radius: 12px; margin-top: 24px; border-left: 4px solid #3B82F6; display: none;" id="processingInfo">
+                <p style="margin: 0; color: #1E40AF; font-weight: 600;">
+                    📋 Processing will include:
+                </p>
+                <ul style="margin: 8px 0 0 0; padding-left: 20px; color: #1E40AF;">
+                    <li>Vehicle detection and classification</li>
+                    <li>Bounding box annotations</li>
+                    <li>Confidence score calculation</li>
+                    <li>Detailed analysis report</li>
+                </ul>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group" style="margin-top: 32px;">
+                <button class="primary" id="runBtn" style="flex: 1; display: none;" onclick="handleRunDetection()">
+                    ⚡ Run Detection
+                </button>
+                <button class="tertiary" style="flex: 1;" onclick="navigate('dashboard.html')">
+                    ← Back to Dashboard
+                </button>
+            </div>
+        </div>
+
+        <!-- Info Cards -->
+        <!--div class="grid" style="margin-top: 32px;">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3 style="font-size: 16px;">Fast Processing</h3>
+                <p style="font-size: 14px;">Get results in seconds</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3 style="font-size: 16px;">High Accuracy</h3>
+                <p style="font-size: 14px;">YOLOv8 powered detection</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 style="font-size: 16px;">Detailed Reports</h3>
+                <p style="font-size: 14px;">Complete analysis included</p>
+            </div>
+        </div-->
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let selectedFile = null;
+
+        function handleDragOver(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('uploadBox').style.backgroundColor = '#EFF6FF';
+            document.getElementById('uploadBox').style.borderColor = '#3B82F6';
+        }
+
+        function handleDragLeave(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('uploadBox').style.backgroundColor = '#F0F9FF';
+            document.getElementById('uploadBox').style.borderColor = '#60A5FA';
+        }
+
+        function handleDrop(event) {
+            event.preventDefault();
+            event.stopPropagation();
+            document.getElementById('uploadBox').style.backgroundColor = '#F0F9FF';
+            document.getElementById('uploadBox').style.borderColor = '#60A5FA';
+            
+            const files = event.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        }
+
+        function handleFileSelect(event) {
+            if (event.target.files.length > 0) {
+                handleFile(event.target.files[0]);
+            }
+        }
+
+        function handleFile(file) {
+            selectedFile = file;
+            const fileSize = (file.size / (1024 * 1024)).toFixed(2);
+            
+            document.getElementById('fileName').textContent = file.name;
+            document.getElementById('fileSize').textContent = `Size: ${fileSize} MB`;
+            document.getElementById('filePreview').style.display = 'block';
+            document.getElementById('processingInfo').style.display = 'block';
+            document.getElementById('runBtn').style.display = 'block';
+
+            // Show image preview if it's an image
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagePreview').src = e.target.result;
+                    document.getElementById('imagePreviewContainer').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                document.getElementById('imagePreviewContainer').style.display = 'none';
+            }
+        }
+
+        function handleRunDetection() {
+            if (selectedFile) {
+                // Save file info to localStorage for the output page
+                localStorage.setItem('uploadedFileName', selectedFile.name);
+                localStorage.setItem('uploadedFileType', selectedFile.type);
+                
+                // Show processing animation
+                document.getElementById('runBtn').disabled = true;
+                document.getElementById('runBtn').textContent = '⏳ Processing...';
+                
+                // Simulate processing delay
+                setTimeout(() => {
+                    navigate('output.html');
+                }, 1500);
+            }
+        }
+
+        // Check if user is logged in
+        window.addEventListener('load', function() {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                navigate('login.html');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('username');
+            navigate('index.html');
+        }
+    </script>
+</body>
+</html>

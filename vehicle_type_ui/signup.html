@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup - Vehicle Type Classification</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <div class="gradient-bg">
+        <div class="card-wrapper card slide-up">
+            <div style="text-align: center; margin-bottom: 32px;">
+                <div style="font-size: 48px; margin-bottom: 12px;">📝</div>
+                <h1>Sign Up</h1>
+                <p>Create your account to get started</p>
+            </div>
+
+            <form onsubmit="handleSignup(event)">
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1F2937;">
+                        Username
+                    </label>
+                    <input
+                        type="text"
+                        id="signupUsername"
+                        placeholder="Choose a username"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1F2937;">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Create a password"
+                        required
+                    >
+                </div>
+
+                <div>
+                    <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #1F2937;">
+                        Confirm Password
+                    </label>
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Confirm your password"
+                        required
+                    >
+                </div>
+
+                <div style="margin-bottom: 24px;">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input
+                            type="checkbox"
+                            id="signupRememberMe"
+                            style="width: auto; margin-right: 8px; margin-bottom: 0; cursor: pointer;"
+                        >
+                        <span style="color: #6B7280;">Remember me on this device</span>
+                    </label>
+                </div>
+
+                <button type="submit" class="primary" style="width: 100%; padding: 14px;">
+                    Create Account
+                </button>
+            </form>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+                <button class="tertiary" style="width: 100%" onclick="navigate('login.html')">
+                    Already have an account? Login
+                </button>
+            </div>
+
+            <div id="signupMessage" style="margin-top: 20px; text-align: center;"></div>
+
+            <p style="text-align: center; margin-top: 20px; color: #6B7280; font-size: 14px;">
+                By signing up, you agree to our terms of service.
+            </p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function handleSignup(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('signupUsername').value.trim();
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const rememberMe = document.getElementById('signupRememberMe').checked;
+            const messageDiv = document.getElementById('signupMessage');
+
+            // Clear previous messages
+            messageDiv.innerHTML = '';
+
+            // Validate inputs
+            if (!username || !password) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Please fill in all fields.',
+                    confirmButtonColor: '#3B82F6'
+                });
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Mismatch',
+                    text: 'Passwords do not match.',
+                    confirmButtonColor: '#3B82F6'
+                });
+                return;
+            }
+
+            if (password.length < 6) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Password Too Short',
+                    text: 'Password must be at least 6 characters long.',
+                    confirmButtonColor: '#3B82F6'
+                });
+                return;
+            }
+
+            // Check if user already exists
+            const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+            const userExists = existingUsers.some(user => user.username === username);
+
+            if (userExists) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Username Taken',
+                    text: 'Username already exists. Please choose a different username.',
+                    confirmButtonColor: '#3B82F6'
+                });
+                return;
+            }
+
+            // Create new user
+            const newUser = {
+                username: username,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            // Save user
+            existingUsers.push(newUser);
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+
+            // Handle remember me
+            if (rememberMe) {
+                localStorage.setItem('rememberedUsername', username);
+            }
+
+            // Show success message and redirect
+            Swal.fire({
+                icon: 'success',
+                title: 'Account Created!',
+                text: 'Your account has been created successfully.',
+                confirmButtonColor: '#3B82F6',
+                timer: 2000,
+                timerProgressBar: true
+            }).then(() => {
+                navigate('login.html');
+            });
+        }
+
+        function showMessage(message, type) {
+            const messageDiv = document.getElementById('signupMessage');
+            messageDiv.innerHTML = `<p style="color: ${type === 'error' ? '#DC2626' : '#16A34A'}; font-weight: 600;">${message}</p>`;
+        }
+    </script>
+</body>
+</html>

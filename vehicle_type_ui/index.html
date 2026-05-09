@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Type Classification - Home</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <header class="header">
+        <div class="header-content">
+            <a href="#" class="logo">Vehicle Classification</a>
+            <nav class="nav-buttons">
+                <a href="#" onclick="navigate('login.html')" class="nav-link">Login</a>
+                <a href="#" onclick="navigate('signup.html')" class="nav-link">Signup</a>
+                <a href="#features" class="nav-link scroll-link">Features</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Vehicle Type Classification Using Deep Learning</h1>
+                <p>Upload an image or video to analyze and classify vehicles using YOLOv8. Our advanced deep learning model detects and categorizes cars, auto, trucks with accuracy.</p>
+                <div class="button-group">
+                    <button class="primary" onclick="navigate('login.html')">
+                        🔐 Login
+                    </button>
+                    <button class="secondary" onclick="navigate('dashboard.html')">
+                        ⚡ Start Classification
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2>Features</h2>
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Advanced Detection</h3>
+                    <p>YOLOv8 powered</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">📊</div>
+                    <h3>Detailed Analysis</h3>
+                    <p>Confidence scores & stats</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Processing</h3>
+                    <p>Real-time detection</p>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Multiple Vehicle Types</h3>
+                    <p>Cars, Auto, trucks </p>
+                </div>
+                
+                <div class="feature-box">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Secure & Private</h3>
+                    <p>Your data is safe</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        // Smooth scroll for features link
+        document.querySelectorAll('.scroll-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

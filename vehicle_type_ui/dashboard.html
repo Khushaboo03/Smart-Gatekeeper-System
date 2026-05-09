@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Vehicle Type Classification</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo"> Vehicle Classification</a>
+            <nav class="nav-buttons">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="card slide-up">
+            <div class="icon-heading">
+                <div class="icon-heading-icon">📊</div>
+                <div class="icon-heading-text">
+                    <h1>Classification Dashboard</h1>
+                    <p style="margin: 0;">Get started with vehicle detection</p>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-button active" onclick="switchTab('image')">
+                    🖼️ Upload Image
+                </button>
+                <button class="tab-button" onclick="switchTab('video')">
+                    🎬 Upload Video
+                </button>
+            </div>
+
+            <!-- Image Tab -->
+            <div id="image-tab" class="tab-content active">
+                <div style="background: #F9FAFB; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3>Supported Classes</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge badge-primary">🚗 Cars</span>
+                        <span class="badge badge-primary">🚐 Auto</span>
+                        <span class="badge badge-primary">🚚 Trucks</span>
+                    </div>
+                </div>
+
+                <div style="background: #F9FAFB; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    <h3>Supported Formats</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge badge-success">JPG</span>
+                        <span class="badge badge-success">PNG</span>
+                        <span class="badge badge-warning">WEBP</span>
+                    </div>
+                </div>
+
+                <p style="color: #6B7280; margin-bottom: 20px;">
+                    Upload a clear image of vehicles for optimal detection results. Our system will analyze the image and provide detailed classification with confidence scores.
+                </p>
+
+                <button class="primary" style="width: 100%; padding: 14px;" onclick="navigate('upload.html')">
+                    ⬆️ Start Image Classification
+                </button>
+            </div>
+
+            <!-- Video Tab -->
+            <div id="video-tab" class="tab-content">
+                <div style="background: #F9FAFB; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3>Supported Classes</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge badge-primary">🚗 Cars</span>
+                        <span class="badge badge-primary">🚐 Auto</span>
+                        <span class="badge badge-primary">🚚 Trucks</span>
+                    </div>
+                </div>
+
+                <div style="background: #F9FAFB; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
+                    <h3>Supported Formats</h3>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <span class="badge badge-success">MP4</span>
+                        <span class="badge badge-success">AVI</span>
+                        <span class="badge badge-success">MOV</span>
+                    </div>
+                </div>
+
+                <p style="color: #6B7280; margin-bottom: 20px;">
+                    Upload a video file for real-time vehicle detection and tracking. Process frames and analyze vehicle patterns throughout the video.
+                </p>
+
+                <button class="primary" style="width: 100%; padding: 14px;" onclick="navigate('upload.html')">
+                    ⬆️ Start Video Classification
+                </button>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; padding: 20px; background: #DCFCE7; border-radius: 12px; border-left: 4px solid #22C55E;">
+            <h3 style="margin-bottom: 8px;">💡 Pro Tips</h3>
+            <ul style="margin: 0; padding-left: 20px; color: #166534;">
+                <li>Use clear, well-lit images for better accuracy</li>
+                <li>Ensure vehicles are clearly visible in the frame</li>
+                <li>Multiple vehicles in one image work great!</li>
+                <li>Video files are processed frame by frame</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.getElementById('image-tab').classList.remove('active');
+            document.getElementById('video-tab').classList.remove('active');
+
+            // Remove active class from buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName + '-tab').classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        // Check if user is logged in
+        window.addEventListener('load', function() {
+            const username = localStorage.getItem('username');
+            if (!username) {
+                navigate('login.html');
+            }
+        });
+
+        function logout() {
+            localStorage.removeItem('username');
+            navigate('index.html');
+        }
+    </script>
+</body>
+</html>
