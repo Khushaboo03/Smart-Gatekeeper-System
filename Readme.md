@@ -1,4 +1,4 @@
-# AI-Driven Vehicle Authentication and Smart Security Monitoring System 🚗🔐
+# Smart Gatekeeper System 🚗🔐
 
 An intelligent security-based vehicle authentication system that uses Artificial Intelligence, Computer Vision, and Deep Learning to automate vehicle monitoring, authentication, and surveillance in real time.
 
